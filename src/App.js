@@ -1,6 +1,7 @@
 import React from "react";
-import { Categories, Header, PizzaBlock, SortPopup } from "./components";
-
+import { Header } from "./components";
+import { Route } from "react-router-dom";
+import { Home, Cart } from "./components/pages";
 import { db } from "./db";
 
 function App() {
@@ -8,23 +9,11 @@ function App() {
   const items = db.pizzas;
 
   return (
-    <div className="App">
-      <div className="wrapper">
-        <Header />
-        <div className="content">
-          <div className="container">
-            <div className="content__top">
-              <Categories items={categories} />
-              <SortPopup />
-            </div>
-            <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-              {items.map((item) => (
-                <PizzaBlock key={item.id} {...item} />
-              ))}
-            </div>
-          </div>
-        </div>
+    <div className="wrapper">
+      <Header />
+      <div className="content">
+        <Route exact path="/cart" component={Cart} />
+        <Route exact path="/" render={() => <Home categories={categories} items={items} />} />
       </div>
     </div>
   );
