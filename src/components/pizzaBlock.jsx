@@ -1,14 +1,10 @@
 import React from "react";
 
-export default function pizzaBlock() {
+export default function PizzaBlock({ ...item }) {
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-        alt="Pizza"
-      />
-      <h4 className="pizza-block__title">Чизбургер-пицца</h4>
+      <img className="pizza-block__image" src={item.imageUrl} alt="Pizza" />
+      <h4 className="pizza-block__title">{item.name}</h4>
       <div className="pizza-block__selector">
         <ul>
           <li className="active">тонкое</li>
@@ -21,7 +17,7 @@ export default function pizzaBlock() {
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">от 395 ₽</div>
+        <div className="pizza-block__price">от {item.price} ₽</div>
         <div className="button button--outline button--add">
           <svg
             width="12"
