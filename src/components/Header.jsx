@@ -1,6 +1,6 @@
 import React from "react";
 import pizzaLogo from "../assets/img/pizza-logo.svg";
-import Button from "./Button";
+import { Button } from "./";
 
 export default function Header() {
   return (
