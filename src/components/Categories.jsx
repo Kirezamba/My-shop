@@ -1,6 +1,7 @@
 import React from "react";
 
-export default function Categories({ items }) {
+export default function Categories() {
+  const items = ["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
   const [activeItem, setActiveItem] = React.useState(null);
 
   const onSelectItem = (index) => {
