@@ -1,25 +1,16 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setCategory } from "../redux/slices/filtersSlice";
+import { categories } from "../constants";
+import PropTypes from "prop-types";
 
-export default function Categories() {
-  const items = ["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
-
-  const category = useSelector(({ filters }) => filters.category);
-  const dispatch = useDispatch();
-
-  const onSelectItem = (index) => {
-    dispatch(setCategory(index));
-  };
-
+const Categories = React.memo(function Categories({ onSelectItem, category }) {
   return (
     <div className="categories">
       <ul>
         <li className={category === null ? "active" : ""} onClick={() => onSelectItem(null)}>
           Все
         </li>
-        {items &&
-          items.map((name, index) => (
+        {categories &&
+          categories.map((name, index) => (
             <li
               className={category === index ? "active" : ""}
               onClick={() => onSelectItem(index)}
@@ -31,4 +22,11 @@ export default function Categories() {
       </ul>
     </div>
   );
-}
+});
+Categories.defaultProps = {
+  category: null,
+};
+Categories.propTypes = {
+  onSelectItem: PropTypes.func.isRequired,
+};
+export default Categories;

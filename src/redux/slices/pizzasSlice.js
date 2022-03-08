@@ -2,20 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   items: [],
-  isLoaded: false,
+  isLoading: true,
 };
 
 const pizzasSlice = createSlice({
   name: "pizzas",
   initialState,
   reducers: {
-    setPizzas: (state, action) => {
-      state.items = action.payload;
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
     },
-    setIsLoaded: (state) => {
-      state.isLoaded = true;
+    setPizzas: (state, action) => {
+      state.isLoading = false;
+      state.items = action.payload;
     },
   },
 });
-export const { setPizzas, setIsLoaded } = pizzasSlice.actions;
+export const { setIsLoading, setPizzas } = pizzasSlice.actions;
 export default pizzasSlice.reducer;

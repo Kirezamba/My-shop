@@ -1,19 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setSortBy } from "../redux/slices/filtersSlice";
+import { sortItems } from "../constants";
+import PropTypes from "prop-types";
 
-export default function SortPopup() {
-  const items = [
-    { name: "популярности", type: "popular" },
-    { name: "цене", type: "price" },
-    { name: "алфавиту", type: "alphabet" },
-  ];
-  const dispatch = useDispatch();
-  const sortBy = useSelector(({ filters }) => filters.sortBy);
+const SortPopup = React.memo(function SortPopup({ sortBy, onSelectSortType }) {
   const [visiblePopup, setVisiblePopup] = React.useState(false);
-  const activeLabel = items[sortBy].name;
-  const onSelectItem = (index) => {
-    dispatch(setSortBy(index));
+  const activeLabel = sortItems[sortBy].name;
+  const onSortSelect = (index) => {
+    onSelectSortType(index);
     setVisiblePopup(false);
   };
   React.useEffect(() => {
@@ -53,10 +46,10 @@ export default function SortPopup() {
       {visiblePopup && (
         <div className="sort__popup">
           <ul>
-            {items &&
-              items.map((obj, index) => (
+            {sortItems &&
+              sortItems.map((obj, index) => (
                 <li
-                  onClick={() => onSelectItem(index)}
+                  onClick={() => onSortSelect(index)}
                   className={sortBy === index ? "active" : ""}
                   key={index}
                 >
@@ -68,4 +61,11 @@ export default function SortPopup() {
       )}
     </div>
   );
-}
+});
+
+SortPopup.propTypes = {
+  sortBy: PropTypes.number.isRequired,
+  onSelectSortType: PropTypes.func,
+};
+
+export default SortPopup;
