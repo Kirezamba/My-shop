@@ -28,11 +28,11 @@ export default function Home() {
 
   function getSortedPizzas() {
     let sortedPizzas;
-    if (sortBy === 0) {
+    if (sortBy === "rating") {
       sortedPizzas = _.orderBy(filteredPizzas, ["rating"]);
-    } else if (sortBy === 1) {
+    } else if (sortBy === "price") {
       sortedPizzas = _.orderBy(filteredPizzas, ["price"]);
-    } else if (sortBy === 2) {
+    } else if (sortBy === "name") {
       sortedPizzas = _.orderBy(filteredPizzas, ["name"]);
     }
 
@@ -43,14 +43,14 @@ export default function Home() {
   const onSelectCategory = React.useCallback((index) => {
     dispatch(setCategory(index));
   }, []);
-  const onSelectSortType = (index) => {
-    dispatch(setSortBy(index));
+  const onSelectSortType = (type) => {
+    dispatch(setSortBy(type));
   };
   return (
     <div className="container">
       <div className="content__top">
         <Categories onSelectItem={onSelectCategory} category={category} />
-        <SortPopup sortBy={sortBy} onSelectSortType={onSelectSortType} />
+        <SortPopup sortBy={sortBy} onSelectSortType={onSelectSortType} activeSortType={sortBy} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
