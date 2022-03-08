@@ -3,7 +3,7 @@ import { Header } from "./components";
 import { Route } from "react-router-dom";
 import { Home, Cart } from "./components/pages";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setPizzas, setIsLoaded } from "./redux/slices/pizzasSlice";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
       <Header />
       <div className="content">
         <Route exact path="/cart" component={Cart} />
-        <Route exact path="/" render={() => <Home />} />
+        <Route exact path="/" component={Home} />
       </div>
     </div>
   );

@@ -1,19 +1,19 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategory, setSortBy } from "../redux/slices/filtersSlice";
+import { setSortBy } from "../redux/slices/filtersSlice";
 
-export default function SortPopup({ items }) {
-  console.log(items);
+export default function SortPopup() {
+  const items = [
+    { name: "популярности", type: "popular" },
+    { name: "цене", type: "price" },
+    { name: "алфавиту", type: "alphabet" },
+  ];
   const dispatch = useDispatch();
   const sortBy = useSelector(({ filters }) => filters.sortBy);
-  const category = useSelector(({ filters }) => filters.category);
-  console.log(sortBy, category);
   const [visiblePopup, setVisiblePopup] = React.useState(false);
-  const activeLabel = items[category].name;
-  const onSelectItem = (type, index) => {
-    dispatch(setSortBy(type));
-    dispatch(setCategory(index));
+  const activeLabel = items[sortBy].name;
+  const onSelectItem = (index) => {
+    dispatch(setSortBy(index));
     setVisiblePopup(false);
   };
   React.useEffect(() => {
@@ -56,9 +56,9 @@ export default function SortPopup({ items }) {
             {items &&
               items.map((obj, index) => (
                 <li
-                  onClick={() => onSelectItem(obj.type, index)}
-                  className={sortBy === obj.type ? "active" : ""}
-                  key={`${obj.type}_${index}`}
+                  onClick={() => onSelectItem(index)}
+                  className={sortBy === index ? "active" : ""}
+                  key={index}
                 >
                   {obj.name}
                 </li>
@@ -69,6 +69,3 @@ export default function SortPopup({ items }) {
     </div>
   );
 }
-SortPopup.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
-};

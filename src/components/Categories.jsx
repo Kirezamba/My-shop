@@ -1,23 +1,27 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCategory } from "../redux/slices/filtersSlice";
 
 export default function Categories() {
   const items = ["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
-  const [activeItem, setActiveItem] = React.useState(null);
+
+  const category = useSelector(({ filters }) => filters.category);
+  const dispatch = useDispatch();
 
   const onSelectItem = (index) => {
-    setActiveItem(index);
+    dispatch(setCategory(index));
   };
 
   return (
     <div className="categories">
       <ul>
-        <li className={activeItem === null ? "active" : ""} onClick={() => onSelectItem(null)}>
+        <li className={category === null ? "active" : ""} onClick={() => onSelectItem(null)}>
           Все
         </li>
         {items &&
           items.map((name, index) => (
             <li
-              className={activeItem === index ? "active" : ""}
+              className={category === index ? "active" : ""}
               onClick={() => onSelectItem(index)}
               key={`${name}_${index}`}
             >

@@ -1,26 +1,48 @@
 import React from "react";
 import { Categories, PizzaBlock, SortPopup } from "../";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-
+import _ from "lodash";
 export default function Home() {
   const items = useSelector(({ pizzas }) => pizzas.items);
-  console.log(items);
+  const sortBy = useSelector(({ filters }) => filters.sortBy);
+  const category = useSelector(({ filters }) => filters.category);
 
-  const sortCategories = [
-    { name: "популярности", type: "popular" },
-    { name: "цене", type: "price" },
-    { name: "алфавиту", type: "alphabet" },
-  ];
+  function getFilteredPizzas() {
+    let pizzas;
+    const filteredPizzas = items.filter((item) => item.category === category);
+    if (category === null) {
+      pizzas = items;
+    } else {
+      pizzas = filteredPizzas;
+    }
+    return pizzas;
+  }
+
+  const filteredPizzas = getFilteredPizzas();
+
+  function getSortedPizzas() {
+    let sortedPizzas;
+    if (sortBy === 0) {
+      sortedPizzas = _.orderBy(filteredPizzas, ["rating"], ["asc"]);
+    } else if (sortBy === 1) {
+      sortedPizzas = _.orderBy(filteredPizzas, ["price"], ["asc"]);
+    } else if (sortBy === 2) {
+      sortedPizzas = _.orderBy(filteredPizzas, ["name"], ["asc"]);
+    }
+
+    return sortedPizzas;
+  }
+  const pizzas = getSortedPizzas();
+
   return (
     <div className="container">
       <div className="content__top">
         <Categories />
-        <SortPopup items={sortCategories} />
+        <SortPopup />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {items.map((item) => (
+        {pizzas.map((item) => (
           <PizzaBlock
             key={item.id}
             imageUrl={item.imageUrl}
