@@ -1,10 +1,19 @@
 import classNames from "classnames";
 import React from "react";
 
-export default function Button({ className, children }) {
+export default function Button({ onClick, className, outline, children }) {
   return (
     <>
-      <button className={classNames("button", className, { "button--cart": className })}>
+      <button
+        onClick={onClick}
+        className={classNames(
+          "button",
+          className,
+          outline,
+          { "button--cart": className },
+          { "button--outline": outline }
+        )}
+      >
         {children}
       </button>
     </>

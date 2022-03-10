@@ -3,6 +3,6 @@ import { setIsLoading, setPizzas } from "./redux/slices/pizzasSlice";
 
 export const fetchPizzas = () => async (dispatch) => {
   dispatch(setIsLoading(true));
-  const { data } = await axios.get("https://6227466ad1b3ff08c1aab20f.mockapi.io/pizzas");
+  const { data } = await axios.get("http://localhost:3000/db.json");
   dispatch(setPizzas(data.pizzas));
 };

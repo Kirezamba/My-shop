@@ -2,7 +2,6 @@ import React from "react";
 import { Header } from "./components";
 import { Route } from "react-router-dom";
 import { Home, Cart } from "./components/pages";
-import { useDispatch } from "react-redux";
 
 function App() {
   return (

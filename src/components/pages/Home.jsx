@@ -1,10 +1,10 @@
 import React from "react";
-import { Categories, PizzaBlock, SortPopup } from "../";
+import { Categories, PizzaBlock, SortPopup, LoadingPizza } from "../";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import { setCategory, setSortBy } from "../../redux/slices/filtersSlice";
 import { fetchPizzas } from "../../api";
-import LoadingBlock from "../LoadingPizza";
+import { addToCart } from "../../redux/slices/cartSlice";
 export default function Home() {
   const dispatch = useDispatch();
   const { items, isLoading } = useSelector(({ pizzas }) => pizzas);
@@ -12,7 +12,6 @@ export default function Home() {
   React.useEffect(() => {
     dispatch(fetchPizzas());
   }, [sortBy, category]);
-
   function getFilteredPizzas() {
     let pizzas;
     const filteredPizzas = items.filter((item) => item.category === category);
@@ -23,7 +22,6 @@ export default function Home() {
     }
     return pizzas;
   }
-
   const filteredPizzas = getFilteredPizzas();
 
   function getSortedPizzas() {
@@ -31,7 +29,7 @@ export default function Home() {
     if (sortBy === "rating") {
       sortedPizzas = _.orderBy(filteredPizzas, ["rating"]);
     } else if (sortBy === "price") {
-      sortedPizzas = _.orderBy(filteredPizzas, ["price"]);
+      sortedPizzas = _.orderBy(filteredPizzas, ["price"][0]);
     } else if (sortBy === "name") {
       sortedPizzas = _.orderBy(filteredPizzas, ["name"]);
     }
@@ -39,6 +37,11 @@ export default function Home() {
     return sortedPizzas;
   }
   const pizzas = getSortedPizzas();
+
+  const handleAddPizza = (obj) => {
+    dispatch(addToCart(obj));
+    console.log(obj.id);
+  };
 
   const onSelectCategory = React.useCallback((index) => {
     dispatch(setCategory(index));
@@ -57,8 +60,10 @@ export default function Home() {
         {isLoading
           ? Array(12)
               .fill(0)
-              .map((item, index) => <LoadingBlock key={index} />)
-          : pizzas.map((item) => <PizzaBlock key={item.id} {...item} />)}
+              .map((item, index) => <LoadingPizza key={index} />)
+          : pizzas.map((item, index) => (
+              <PizzaBlock onAddToCart={handleAddPizza} key={item.id} {...item} index={index} />
+            ))}
       </div>
     </div>
   );
